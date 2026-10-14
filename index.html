@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Ayush Yadav - risk-first finance analyst. FRM Part I (GARP), FMVA, B.Tech CSE (NIT Kurukshetra). Valuation, credit and portfolio risk, and the analytics behind them.">
+<meta name="author" content="Ayush Yadav">
+<meta name="color-scheme" content="light dark">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ayush Yadav — Risk, Valuation &amp; Investment Banking">
+<meta property="og:description" content="Ayush Yadav - risk-first finance analyst. FRM Part I (GARP), FMVA, B.Tech CSE (NIT Kurukshetra). Valuation, credit and portfolio risk, and the analytics behind them.">
+<meta name="twitter:card" content="summary">
+<style>
+  *{margin:0}
+  img{max-width:100%}
+  [hidden]{display:none!important}
+</style>
+<title>Ayush Yadav</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400..600&display=swap">
+
+<style>
+/* Layout: sticky top band carrying name, standing facts and theme control, with the section nav on a second row beneath it; one measured column of sections below. */
+:root{
+  --bg:#F1F4F6;
+  --surface:#FFFFFF;
+  --surface-2:#E5EAEF;
+  --ink:#111820;
+  --muted:#56637A;
+  --line:#D4DBE2;
+  --accent:#0F5568;
+  --accent-soft:#D7E7EB;
+  --signal:#953722;
+  --signal-soft:#F2DED8;
+  --positive:#2B6648;
+  --band:#FFFFFF;
+
+  --display:'Archivo','Helvetica Neue',Arial,sans-serif;
+  --body:'Source Serif 4',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0C1115;
+    --surface:#141B21;
+    --surface-2:#1C252D;
+    --ink:#E6EBEF;
+    --muted:#95A4B4;
+    --line:#222C35;
+    --accent:#6DBFD4;
+    --accent-soft:#14323B;
+    --signal:#E59478;
+    --signal-soft:#3A2219;
+    --positive:#78C59F;
+    --band:#10171C;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0C1115;
+  --surface:#141B21;
+  --surface-2:#1C252D;
+  --ink:#E6EBEF;
+  --muted:#95A4B4;
+  --line:#222C35;
+  --accent:#6DBFD4;
+  --accent-soft:#14323B;
+  --signal:#E59478;
+  --signal-soft:#3A2219;
+  --positive:#78C59F;
+  --band:#10171C;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:1rem;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
+p{margin:0}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+.num{font-variant-numeric:tabular-nums}
+
+/* ---------- top band ---------- */
+.topbar{
+  position:sticky;
+  top:env(safe-area-inset-top,0px);
+  z-index:30;
+  background:var(--band);
+  border-bottom:1px solid var(--line);
+}
+.band-inner{
+  max-width:1120px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+}
+.band-top{
+  padding-block:11px;
+  display:flex;align-items:center;gap:12px 22px;flex-wrap:wrap;min-width:0;
+}
+.brand{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;min-width:0;margin-right:auto}
+.brand-name{
+  font-family:var(--display);
+  font-variation-settings:'wdth' 86,'wght' 780;
+  font-size:1.02rem;letter-spacing:.015em;text-transform:uppercase;white-space:nowrap;
+}
+.brand-role{
+  font-family:var(--mono);font-size:.64rem;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--accent);white-space:nowrap;
+}
+.facts{display:flex;gap:7px;flex-wrap:wrap;min-width:0}
+.fact{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--muted);border:1px solid var(--line);padding:3px 8px;white-space:nowrap;
+}
+.theme-btn{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.09em;text-transform:uppercase;
+  background:transparent;color:var(--accent);border:1px solid var(--line);
+  padding:6px 11px;cursor:pointer;flex:0 0 auto;
+  display:inline-flex;align-items:center;gap:7px;min-width:92px;justify-content:center;
+}
+.theme-btn:hover{border-color:var(--accent)}
+.theme-btn .glyph{font-size:.8rem;line-height:1}
+
+.band-nav{border-top:1px solid var(--line);overflow-x:auto;-webkit-overflow-scrolling:touch}
+.band-nav .band-inner{display:flex;gap:20px;padding-block:9px;min-width:max-content}
+.band-nav a{
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;white-space:nowrap;padding-bottom:2px;
+  border-bottom:1px solid transparent;
+}
+.band-nav a:hover{color:var(--ink);border-bottom-color:var(--accent)}
+
+/* ---------- shell ---------- */
+.shell{
+  max-width:1120px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0 72px;
+}
+@media (min-width:980px){.shell{padding-block:0 96px}}
+.main{min-width:0;max-width:1000px}
+
+/* ---------- section scaffolding ---------- */
+section{padding-block:52px;border-top:1px solid var(--line)}
+section:first-of-type{border-top:0}
+.eyebrow{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:18px;display:block;
+}
+h2{
+  font-variation-settings:'wdth' 92,'wght' 680;
+  font-size:clamp(1.35rem,3.4vw,1.8rem);letter-spacing:-.01em;margin-bottom:10px;
+}
+.lede{color:var(--muted);max-width:62ch;margin-bottom:26px}
+
+/* ---------- hero ---------- */
+.hero{padding-block:48px 44px}
+@media (min-width:980px){.hero{padding-block:84px 56px}}
+.hero h1{
+  font-variation-settings:'wdth' 84,'wght' 800;
+  font-size:clamp(2.5rem,8.5vw,4.6rem);
+  letter-spacing:-.035em;line-height:.92;text-transform:uppercase;
+}
+.hero-role{
+  font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--accent);margin-top:20px;
+}
+.hero-pitch{font-size:clamp(1.05rem,2.4vw,1.28rem);line-height:1.52;max-width:60ch;margin-top:20px}
+.hero-pitch b{font-weight:600;color:var(--ink)}
+.hero-where{
+  margin-top:22px;font-family:var(--mono);font-size:.72rem;
+  letter-spacing:.05em;color:var(--muted);text-transform:uppercase;
+}
+
+/* ---------- stats ---------- */
+.stats{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:1px;background:var(--line);border:1px solid var(--line);margin-top:36px;
+}
+@media (min-width:720px){.stats{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.stat{background:var(--surface);padding:18px 16px;min-width:0}
+.stat-fig{
+  font-family:var(--display);font-variation-settings:'wdth' 88,'wght' 720;
+  font-size:1.5rem;letter-spacing:-.02em;font-variant-numeric:tabular-nums;
+}
+.stat-label{
+  font-family:var(--mono);font-size:.64rem;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--muted);margin-top:7px;line-height:1.6;
+}
+
+/* ---------- about ---------- */
+.about{display:grid;gap:30px;align-items:start}
+@media (min-width:880px){.about{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:48px}}
+.about-prose{min-width:0;display:grid;gap:16px}
+.about-prose p{font-size:1.01rem;line-height:1.62;max-width:60ch}
+.about-prose p b{font-weight:600}
+.about-lead{font-size:1.13rem!important;line-height:1.52!important}
+.vision{
+  border-left:3px solid var(--accent);background:var(--accent-soft);
+  padding:18px 20px;margin-top:6px;
+}
+.vision-label{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--accent);
+}
+.vision p{
+  font-family:var(--display);font-variation-settings:'wdth' 94,'wght' 620;
+  font-size:clamp(1.05rem,2.3vw,1.24rem);line-height:1.34;letter-spacing:-.01em;
+  margin-top:10px;color:var(--ink);
+}
+.about-side{min-width:0;display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+.side-row{background:var(--surface);padding:15px 17px;min-width:0}
+.side-label{
+  font-family:var(--mono);font-size:.61rem;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--muted);
+}
+.side-value{
+  font-family:var(--display);font-variation-settings:'wdth' 92,'wght' 650;
+  font-size:.97rem;margin-top:6px;line-height:1.3;
+}
+.side-note{
+  font-family:var(--mono);font-size:.63rem;letter-spacing:.05em;
+  color:var(--muted);margin-top:6px;line-height:1.75;text-transform:uppercase;
+}
+
+/* ---------- practice cards ---------- */
+.tracks{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+@media (min-width:860px){.tracks{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.track{background:var(--surface);padding:22px 20px 24px;min-width:0}
+.track h3{font-variation-settings:'wdth' 92,'wght' 680;font-size:1.02rem;margin-bottom:12px}
+.track ul{margin:0;padding:0;list-style:none;display:grid;gap:7px}
+.track li{font-size:.9rem;color:var(--muted);padding-left:14px;position:relative;line-height:1.5}
+.track li::before{content:"";position:absolute;left:0;top:.62em;width:5px;height:1px;background:var(--accent)}
+
+/* ---------- experience ---------- */
+.roles{display:grid;gap:0}
+.role{
+  padding-block:24px;border-top:1px solid var(--line);
+  display:grid;gap:4px 28px;grid-template-columns:1fr;min-width:0;
+}
+.role:first-child{border-top:0;padding-top:0}
+@media (min-width:860px){.role{grid-template-columns:172px minmax(0,1fr)}}
+.role-when{
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.05em;
+  color:var(--muted);text-transform:uppercase;padding-top:5px;
+}
+.role-body{min-width:0}
+.role-title{
+  font-family:var(--display);font-variation-settings:'wdth' 92,'wght' 700;
+  font-size:1.06rem;letter-spacing:-.005em;
+}
+.role-org{
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.05em;
+  color:var(--accent);margin-top:5px;text-transform:uppercase;
+}
+.role-body ul{margin:13px 0 0;padding:0;list-style:none;display:grid;gap:9px}
+.role-body li{font-size:.93rem;padding-left:16px;position:relative;color:var(--ink);line-height:1.55}
+.role-body li::before{content:"";position:absolute;left:0;top:.66em;width:7px;height:1px;background:var(--muted)}
+.role-body li b{font-weight:600}
+
+/* ---------- case study ---------- */
+.case{border:1px solid var(--line);background:var(--surface)}
+.case-head{padding:22px 20px;border-bottom:1px solid var(--line)}
+.case-head h3{
+  font-variation-settings:'wdth' 90,'wght' 720;
+  font-size:clamp(1.1rem,2.6vw,1.3rem);letter-spacing:-.01em;
+}
+.case-sub{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--muted);margin-top:9px;
+}
+.case-grid{display:grid;gap:1px;background:var(--line)}
+@media (min-width:780px){.case-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.case-cell{background:var(--surface);padding:20px;min-width:0}
+.case-cell h4{
+  font-family:var(--mono);font-size:.64rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--accent);font-weight:500;margin-bottom:12px;
+}
+.case-cell p{font-size:.91rem;color:var(--muted);line-height:1.58}
+.case-cell p + p{margin-top:10px}
+.case-cell p b{color:var(--ink);font-weight:600}
+.inline-code{font-family:var(--mono);font-size:.78rem}
+.fixlist{margin:0;padding:0;list-style:none;display:grid;gap:9px}
+.fixlist li{
+  font-size:.88rem;color:var(--muted);line-height:1.5;
+  display:grid;grid-template-columns:auto 1fr;gap:9px;min-width:0;
+}
+.fixlist code{
+  font-family:var(--mono);font-size:.74rem;color:var(--signal);
+  background:var(--signal-soft);padding:1px 5px;white-space:nowrap;align-self:start;
+}
+.case-foot{
+  padding:16px 20px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--muted);line-height:1.9;
+}
+.check{color:var(--positive)}
+
+/* ---------- signals table ---------- */
+.signals-wrap{overflow-x:auto;border:1px solid var(--line);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:480px;font-size:.89rem}
+th,td{text-align:left;padding:11px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+th{
+  font-family:var(--mono);font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);font-weight:500;background:var(--surface-2);
+}
+tbody tr:last-child td{border-bottom:0}
+td:first-child{font-weight:600;white-space:nowrap}
+td:last-child{color:var(--muted)}
+.thresh{font-family:var(--mono);font-size:.78rem;font-variant-numeric:tabular-nums;color:var(--signal);white-space:nowrap}
+
+/* ---------- framework steps ---------- */
+.steps{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+@media (min-width:620px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:980px){.steps{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.step{background:var(--surface);padding:16px;min-width:0}
+.step-last{background:var(--surface-2)}
+.step-n{
+  font-family:var(--mono);font-size:.64rem;letter-spacing:.08em;
+  color:var(--accent);font-variant-numeric:tabular-nums;
+}
+.step-name{
+  font-family:var(--display);font-variation-settings:'wdth' 92,'wght' 660;
+  font-size:.96rem;margin-top:7px;
+}
+.step p{font-size:.84rem;color:var(--muted);margin-top:6px;line-height:1.5}
+
+/* ---------- projects ---------- */
+.projects{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+@media (min-width:780px){.projects{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.proj{background:var(--surface);padding:20px;min-width:0;display:flex;flex-direction:column;gap:10px}
+.proj-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.proj h3{font-variation-settings:'wdth' 92,'wght' 700;font-size:1rem}
+.chip{
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--accent);border:1px solid var(--accent);padding:2px 6px;white-space:nowrap;
+}
+.proj p{font-size:.89rem;color:var(--muted);line-height:1.55}
+.proj-metric{
+  font-family:var(--mono);font-size:.67rem;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink);margin-top:auto;padding-top:6px;font-variant-numeric:tabular-nums;
+}
+
+/* ---------- notes / linkedin ---------- */
+.notes{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+@media (min-width:780px){.notes{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.note{background:var(--surface);padding:20px;min-width:0;display:flex;flex-direction:column;gap:10px}
+.note-tag{
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);
+}
+.note h3{font-variation-settings:'wdth' 90,'wght' 700;font-size:1.04rem;letter-spacing:-.01em}
+.note p{font-size:.9rem;color:var(--muted);line-height:1.55}
+.note-take{
+  font-size:.88rem;color:var(--ink);border-left:2px solid var(--accent);
+  padding-left:12px;margin-top:auto;line-height:1.5;
+}
+.note-cta{
+  grid-column:1/-1;background:var(--surface-2);padding:20px;min-width:0;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+.note-cta p{font-size:.95rem;max-width:52ch;min-width:0}
+.btn{
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--band);background:var(--accent);text-decoration:none;
+  padding:10px 16px;white-space:nowrap;border:1px solid var(--accent);
+}
+.btn:hover{background:transparent;color:var(--accent)}
+
+/* ---------- ventures ---------- */
+.ventures{display:grid;gap:18px}
+@media (min-width:780px){.ventures{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.venture{border-left:2px solid var(--accent);padding:2px 0 2px 18px;min-width:0}
+.venture h3{font-variation-settings:'wdth' 92,'wght' 700;font-size:1.02rem}
+.venture .role-org{margin-top:4px}
+.venture p{font-size:.9rem;color:var(--muted);margin-top:10px;line-height:1.55}
+
+/* ---------- credentials ---------- */
+.creds{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+@media (min-width:720px){.creds{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.cred{background:var(--surface);padding:18px 20px;min-width:0}
+.cred-name{font-family:var(--display);font-variation-settings:'wdth' 92,'wght' 660;font-size:.98rem}
+.cred-meta{
+  font-family:var(--mono);font-size:.65rem;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted);margin-top:7px;line-height:1.7;
+}
+.cred-status{color:var(--positive)}
+
+/* ---------- coverage ---------- */
+.coverage{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+@media (min-width:620px){.coverage{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:980px){.coverage{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.cov{background:var(--surface);padding:14px 16px;min-width:0}
+.cov-name{font-family:var(--display);font-variation-settings:'wdth' 92,'wght' 660;font-size:.92rem}
+.cov-desc{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.05em;color:var(--muted);
+  margin-top:6px;line-height:1.7;text-transform:uppercase;
+}
+
+/* ---------- coverage cards as resume downloads ---------- */
+a.cov{
+  display:flex;flex-direction:column;gap:0;text-decoration:none;color:inherit;
+}
+a.cov:hover{background:var(--surface-2)}
+a.cov:hover .cov-name{color:var(--accent)}
+.cov-dl{
+  font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);margin-top:9px;
+}
+.resume-all{
+  margin-top:18px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--muted);
+}
+
+/* ---------- contact ---------- */
+.contact-grid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+@media (min-width:720px){.contact-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.cx{background:var(--surface);padding:18px 20px;min-width:0;display:flex;flex-direction:column;gap:10px}
+.cx-label{font-family:var(--mono);font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.cx-value{
+  font-family:var(--mono);font-size:.84rem;word-break:break-all;
+  color:var(--ink);font-variant-numeric:tabular-nums;
+}
+.cx-value a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--accent)}
+.copy{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.09em;text-transform:uppercase;
+  background:transparent;color:var(--accent);border:1px solid var(--line);
+  padding:5px 9px;cursor:pointer;align-self:flex-start;margin-top:auto;
+}
+.copy:hover{border-color:var(--accent)}
+.copy[data-done="1"]{color:var(--positive);border-color:var(--positive)}
+
+footer{
+  border-top:1px solid var(--line);padding-block:26px;
+  font-family:var(--mono);font-size:.64rem;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--muted);line-height:1.9;
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+</head>
+<body>
+<header class="topbar">
+  <div class="band-inner band-top">
+    <div class="brand">
+      <span class="brand-name">Ayush Yadav</span>
+      <span class="brand-role">Risk · Valuation · Investment Banking</span>
+    </div>
+    <div class="facts">
+      <span class="fact">Gurugram, IN</span>
+      <span class="fact">FRM Part I · GARP</span>
+      <span class="fact">B.Tech CSE · NIT KKR</span>
+    </div>
+    <button type="button" class="theme-btn" id="th-toggle">
+      <span class="glyph" id="th-glyph" aria-hidden="true">◐</span><span id="th-label">Auto</span>
+    </button>
+  </div>
+  <div class="band-nav">
+    <nav class="band-inner" aria-label="Sections">
+      <a href="#about">About</a>
+      <a href="#practice">Practice</a>
+      <a href="#experience">Experience</a>
+      <a href="#ambak">Case study</a>
+      <a href="#signals">Signals</a>
+      <a href="#framework">Framework</a>
+      <a href="#work">Work</a>
+      <a href="#notes">Notes</a>
+      <a href="#ventures">Ventures</a>
+      <a href="#credentials">Credentials</a>
+      <a href="#resumes">Resumes</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<div class="shell">
+  <main class="main">
+
+    <section class="hero">
+      <h1>Risk-first<br>finance<br>analyst</h1>
+      <p class="hero-role">Risk · Valuation · Investment Banking</p>
+      <p class="hero-pitch">I price businesses and then argue with the price. <b>FRM Part I (GARP)</b> and a computer-science degree, applied to three-statement models, DCF and comps on live mandates — and to the downside case that sits underneath them. Where the analysis repeats, I write the Python, SQL or Power BI that does it the same way every month.</p>
+      <p class="hero-where">Gurugram, Haryana, India · Open to risk, equity research, private markets &amp; wealth roles</p>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-fig">Part I</div>
+          <div class="stat-label">FRM cleared, GARP<br>Part II in preparation</div>
+        </div>
+        <div class="stat">
+          <div class="stat-fig num">6+</div>
+          <div class="stat-label">Live mandates<br>IB division</div>
+        </div>
+        <div class="stat">
+          <div class="stat-fig num">12+</div>
+          <div class="stat-label">Research reports<br>institutional format</div>
+        </div>
+        <div class="stat">
+          <div class="stat-fig num">2,500+</div>
+          <div class="stat-label">Users on two<br>shipped products</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <span class="eyebrow">About</span>
+      <h2>Engineer first, risk analyst by choice</h2>
+      <div class="about">
+        <div class="about-prose">
+          <p class="about-lead">I came into finance from computer science, and that order matters. I learned to build systems before I learned to value businesses, so I tend to ask what breaks a model before I ask what it is worth.</p>
+
+          <p>At NIT Kurukshetra I read probability, statistics, linear algebra and numerical methods alongside data structures — and spent the spare hours shipping two products rather than only studying. <b>SharePicker</b>, an equity screener, and <b>FinSight</b>, a personal finance and portfolio app, reached about 2,500 users between them. Writing the data pipelines behind them is why I now trust a number only once I know how it was assembled.</p>
+
+          <p>The finance side started with equity research — 12+ institutional-style reports through the IIM Bangalore Associate Programme, each one forced through the same seven steps and each one ending with a view I had to defend. It continued in an investment banking division, where the models stopped being an exercise: three-statement forecasts, DCF and comps on live mandates, with real diligence underneath them — revenue quality, working capital, related-party flows, promoter pledges.</p>
+
+          <p>Somewhere in that, the risk half became the part I actually enjoy. <b>FRM Part I (GARP) is cleared and Part II is in preparation</b>, because the question I keep returning to is not what a business is worth on the base case, but what it is worth when two assumptions go wrong at once. A valuation without that is a guess with decimal places.</p>
+
+          <p>Outside the desk I am building two things of my own: <b>Safe Horizon</b>, a risk advisory practice for small and growing enterprises, and an <b>SME consulting LLP</b> with my brother. Both exist because the companies that most need an honest risk opinion are the ones least likely to be sold one.</p>
+
+          <div class="vision">
+            <span class="vision-label">The long view</span>
+            <p>To build India's most trusted independent risk advisory firm — the one people call when they want the real answer, not the comfortable one.</p>
+          </div>
+        </div>
+
+        <aside class="about-side">
+          <div class="side-row">
+            <div class="side-label">Education</div>
+            <div class="side-value">B.Tech, Computer Science &amp; Engineering</div>
+            <div class="side-note">NIT Kurukshetra · 2022 – 2026<br>CGPA 8.2 / 10</div>
+          </div>
+          <div class="side-row">
+            <div class="side-label">Coursework that carried over</div>
+            <div class="side-note" style="margin-top:8px">Probability &amp; statistics · Linear algebra · Numerical methods · Optimisation · Data structures · Database systems</div>
+          </div>
+          <div class="side-row">
+            <div class="side-label">Risk qualification</div>
+            <div class="side-value">FRM — Part I cleared</div>
+            <div class="side-note">GARP · Part II in preparation<br>Quantitative analysis · Markets &amp; products · Valuation &amp; risk models</div>
+          </div>
+          <div class="side-row">
+            <div class="side-label">Also certified</div>
+            <div class="side-note" style="margin-top:8px">FMVA (CFI) · Bloomberg Market Concepts · NISM Series XV prep · J.P. Morgan IB virtual programme · Equity Research Cohort, The Valuation School</div>
+          </div>
+          <div class="side-row">
+            <div class="side-label">Based in</div>
+            <div class="side-value">Gurugram, Haryana</div>
+            <div class="side-note">English · Hindi</div>
+          </div>
+          <div class="side-row">
+            <div class="side-label">Looking for</div>
+            <div class="side-value">Risk, equity research, private markets &amp; wealth</div>
+            <div class="side-note">Advisory enquiries also welcome</div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="practice">
+      <span class="eyebrow">Practice</span>
+      <h2>Three things I am actually hired for</h2>
+      <p class="lede">The engineering half is not decoration. It is why the risk work scales past one spreadsheet and one analyst.</p>
+      <div class="tracks">
+        <div class="track">
+          <h3>Risk</h3>
+          <ul>
+            <li>Credit, liquidity and market risk assessment</li>
+            <li>VaR — historical, parametric and Monte Carlo, with back-testing</li>
+            <li>Stress testing and scenario analysis (±10–20% driver shocks)</li>
+            <li>Risk registers, KRIs and periodic risk MIS</li>
+            <li>Concentration, look-through and exposure aggregation</li>
+          </ul>
+        </div>
+        <div class="track">
+          <h3>Valuation &amp; deals</h3>
+          <ul>
+            <li>Three-statement operating models and forecasts</li>
+            <li>DCF, trading comps, precedent transactions</li>
+            <li>EV/EBITDA, P/E, P/B, PEG against own history and peer set</li>
+            <li>Sensitivity and scenario tables to a fair-value range</li>
+            <li>Investment memos, information memoranda, pitch material</li>
+          </ul>
+        </div>
+        <div class="track">
+          <h3>Analytics</h3>
+          <ul>
+            <li>Python — pandas, NumPy; data pipelines and automation</li>
+            <li>SQL for funnel, cohort and reconciliation queries</li>
+            <li>Power BI and advanced Excel — Power Query, pivots, XLOOKUP</li>
+            <li>Automated validation and exception reporting</li>
+            <li>Documented models with a traceable audit trail</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <span class="eyebrow">Experience</span>
+      <h2>Where the work was done</h2>
+      <div class="roles">
+
+        <article class="role">
+          <div class="role-when">Aug 2025 — Present</div>
+          <div class="role-body">
+            <div class="role-title">Financial Analyst, Investment Banking Division</div>
+            <div class="role-org">BlueStock.in · Gurugram</div>
+            <ul>
+              <li><b>Risk on live deals.</b> Identify, assess and report credit and liquidity risk across mandates through leverage, interest coverage, liquidity and cash-flow analysis; stress-test deal assumptions under base, upside and downside cases.</li>
+              <li><b>Valuation.</b> Build risk-adjusted models — five-year DCF, comparable companies and precedent transactions — and benchmark targets against 8–12 listed peers across 20+ ratios.</li>
+              <li><b>Diligence.</b> Revenue-quality and working-capital reviews, related-party transaction analysis, promoter shareholding and pledge checks, written up as red-flag memoranda for senior review.</li>
+              <li><b>Portfolio monitoring.</b> Maintain consolidated Excel and Power BI dashboards tracking position-level concentration, sector weights, leverage and valuation-multiple drift across a 20+ company watchlist on a monthly cycle.</li>
+              <li><b>A number that moved a conversation.</b> Identified a c.14% valuation gap on a target through peer-multiple normalisation and margin bridging, which reframed the pricing discussion.</li>
+              <li><b>Deliverables.</b> Investment memoranda, risk memos, pitch decks and MIS packs stating assumptions, risks and mitigants — with the supporting data room and audit trail for each mandate.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="role">
+          <div class="role-when">May 2024 — Sept 2024</div>
+          <div class="role-body">
+            <div class="role-title">Finance Research Intern — Associate Programme</div>
+            <div class="role-org">IIM Bangalore · Remote</div>
+            <ul>
+              <li>Authored 12+ institutional-style equity research reports across 6+ sectors, each covering business model and moat, sector outlook, financials, management quality, valuation and a dedicated key-risks section.</li>
+              <li>Tracked early-warning signals on five years of financial data — margin compression, receivable build-up, promoter pledging, OCF versus PAT gap.</li>
+              <li>Built relative valuation sets on P/E, P/B and EV/EBITDA, benchmarking each name against its own historical range before its peer group.</li>
+              <li>Read chairman's letters, promoter holding trends and related-party disclosures to test whether stated guidance matched delivery.</li>
+              <li>Standardised financial data from annual reports, exchange filings and earnings-call transcripts into reusable comparison and screening templates.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="role">
+          <div class="role-when">May 2023 — Jul 2023</div>
+          <div class="role-body">
+            <div class="role-title">Finance Executive</div>
+            <div class="role-org">A Digital Blogger · Mohali</div>
+            <ul>
+              <li>Ran monthly P&amp;L variance analysis across 10+ cost and revenue heads and flagged overruns and savings opportunities to management.</li>
+              <li>Maintained weekly receivables and cash-flow trackers to surface collection delays early.</li>
+              <li>Handled ledger reconciliations, vendor and receivable ageing, and month-end MIS reporting.</li>
+              <li>Rebuilt recurring reconciliation workbooks into standardised templates, cutting month-end preparation time.</li>
+            </ul>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <section id="ambak">
+      <span class="eyebrow">Case study</span>
+      <h2>A funnel dashboard, and the seven things wrong with the data under it</h2>
+      <p class="lede">A lending lead-funnel build in Power BI. The dashboard was the deliverable; the data quality work was the job.</p>
+
+      <div class="case">
+        <div class="case-head">
+          <h3>Customer Direct lead funnel — Power BI</h3>
+          <p class="case-sub">19,468 leads · 68,964 call logs · 7 tables · 15 KPIs across 5 comparison columns</p>
+        </div>
+
+        <div class="case-grid">
+          <div class="case-cell">
+            <h4>What the raw data did wrong</h4>
+            <ul class="fixlist">
+              <li><code>76 dupes</code><span>Exact duplicate lead rows broke the 1:many relationship to call logs. De-duplicated on lead_id.</span></li>
+              <li><code>1,012 rows</code><span>Inbound calls mixed in with outbound dials. Inbound connect 100% of the time, so they inflated connectivity. Filtered out.</span></li>
+              <li><code>45 orphans</code><span>Calls referencing lead_ids absent from the leads sheet. Inner-joined.</span></li>
+              <li><code>"0"</code><span>Used as the placeholder for "no UTM" on 7,600+ non-paid leads — it reads as a campaign named zero and sorts to the top of every slicer. Mapped to "(none)".</span></li>
+              <li><code>case drift</code><span>"GoogleAds" and "google", "CPC" and "cpc" — one real source appearing twice in every slicer. Normalised.</span></li>
+              <li><code>894 leads</code><span>Assigned to a "demo agent". Flagged rather than deleted: the target lead count includes them.</span></li>
+              <li><code>date col</code><span>Ad spend dates arrived in whatever format the platform exported. Parsed defensively across four layouts so a re-export cannot silently break the relationship.</span></li>
+            </ul>
+            <p style="margin-top:14px"><b>All fixes sit in Power Query</b>, so the model reads the original workbook untouched and re-cleans on every refresh. The same rules are mirrored in SQL.</p>
+          </div>
+
+          <div class="case-cell">
+            <h4>The false positive I did not ship</h4>
+            <p>A naive comparison flags <b>997 leads as qualified before they were created</b>. They were not. <span class="inline-code">qualified_date</span> is date-only and stored at midnight; <span class="inline-code">created_at</span> is a full timestamp, so a lead created at 19:46 and qualified the same day tests as earlier. Compared at day level the genuine count is zero — there is no ordering fault in the funnel.</p>
+            <p>It is in the note because it is the kind of finding that costs a reviewer's trust if it ships.</p>
+
+            <h4 style="margin-top:22px">Insight 1 — cheap leads, cheaper disbursals</h4>
+            <p>Meta delivers leads at <b>₹254</b> against Google's <b>₹547</b>, but only 5.0% of Meta leads qualify versus 12.2% for Google. The instinct is to move budget to Google. Carried to the end of the funnel it reverses: cost per disbursal is <b>₹55,378</b> on Meta against <b>₹75,007</b> on Google. Meta was being judged at the top of the funnel, which is exactly where it looks worst.</p>
+
+            <h4 style="margin-top:22px">Insight 2 — the miss was operational</h4>
+            <p>Outbound dials run 600–930 a day, then fall to <b>214</b> and <b>243</b> on two consecutive days before recovering to 829 — a capacity outage against a weekday median of 642. That one event drives Leads Attempted down 5.7% and Total Attempts down 6.8% week on week, while lead supply was flat at +0.2% and connectivity improved. The red cells belonged to the dialler owner, not to marketing.</p>
+          </div>
+        </div>
+
+        <div class="case-foot">
+          <span class="check">✓</span> All 75 target cells reconciled for the test window &nbsp;·&nbsp; Delivered: Power Query M for 7 tables, full DAX measure library with relationship design, 3 tested SQL queries, build guide, validation file
+        </div>
+      </div>
+    </section>
+
+    <section id="signals">
+      <span class="eyebrow">Method</span>
+      <h2>The signals I check before I believe a model</h2>
+      <p class="lede">Every company report ends with a view. These are the things that get checked before the view is written, and the levels at which they start mattering.</p>
+      <div class="signals-wrap">
+        <table>
+          <thead>
+            <tr><th scope="col">Signal</th><th scope="col">Level</th><th scope="col">What it tends to mean</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Interest coverage</td><td class="thresh">&lt; 3.0x</td><td>Debt service is crowding out reinvestment; covenant headroom is thin</td></tr>
+            <tr><td>Debt / equity</td><td class="thresh">&gt; 2.0x</td><td>Equity cushion too small to absorb a bad cycle</td></tr>
+            <tr><td>OCF vs PAT</td><td class="thresh">gap widening</td><td>Profit is being reported faster than cash arrives — accrual quality question</td></tr>
+            <tr><td>Receivable days</td><td class="thresh">drift up</td><td>Revenue is being bought with credit; collection risk builds quietly</td></tr>
+            <tr><td>Gross margin</td><td class="thresh">vs peer set</td><td>Compression against peers separates pricing power from a sector-wide squeeze</td></tr>
+            <tr><td>ROCE</td><td class="thresh">&lt; 15%</td><td>Capital is being employed without clearing its own cost</td></tr>
+            <tr><td>Promoter pledge</td><td class="thresh">any increase</td><td>Promoter liquidity stress, and a forced-sale overhang on the stock</td></tr>
+            <tr><td>Promoter holding</td><td class="thresh">trending down</td><td>Skin in the game thinning — read alongside the stated reason</td></tr>
+            <tr><td>Related-party flow</td><td class="thresh">material</td><td>Value can leave the listed entity without ever showing as a loss</td></tr>
+            <tr><td>Delinquency flow</td><td class="thresh">DPD 30/60/90+</td><td>For a loan book, where stress is forming before it reaches GNPA</td></tr>
+            <tr><td>Multiple drift</td><td class="thresh">vs own range</td><td>Re-rating without an earnings reason is the part that mean-reverts</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="framework">
+      <span class="eyebrow">Framework</span>
+      <h2>Seven steps, same order, every company</h2>
+      <p class="lede">Built so a report can be repeated and checked by someone else. Applied to 12+ company reports across 6+ sectors.</p>
+      <div class="steps">
+        <div class="step"><div class="step-n">01</div><div class="step-name">Business</div><p>What problem it solves, who pays, and what stops a competitor copying it tomorrow</p></div>
+        <div class="step"><div class="step-n">02</div><div class="step-name">Sector</div><p>Size, growth, market-share split, drivers and the risks that sit above the company</p></div>
+        <div class="step"><div class="step-n">03</div><div class="step-name">Financials</div><p>Revenue trend, margin stack, debt, cash conversion, ROE and ROCE through the cycle</p></div>
+        <div class="step"><div class="step-n">04</div><div class="step-name">Management</div><p>Promoter holding, past promises against delivery, related-party transactions</p></div>
+        <div class="step"><div class="step-n">05</div><div class="step-name">Valuation</div><p>P/E, P/B, EV/EBITDA and PEG against own history first, peer group second</p></div>
+        <div class="step"><div class="step-n">06</div><div class="step-name">Risk</div><p>The top three things that could break the model, and the concentration behind them</p></div>
+        <div class="step"><div class="step-n">07</div><div class="step-name">Thesis</div><p>One page, one conclusion — strong, average or avoid, with the reasoning attached</p></div>
+        <div class="step step-last"><div class="step-n">Output</div><div class="step-name">Decision-ready</div><p>A view someone can act on or argue with, not a pile of collected information</p></div>
+      </div>
+    </section>
+
+    <section id="work">
+      <span class="eyebrow">Selected work</span>
+      <h2>Models and products</h2>
+      <div class="projects">
+        <article class="proj">
+          <div class="proj-top"><h3>Portfolio risk — VaR &amp; stress testing</h3><span class="chip">Python</span></div>
+          <p>Ten-stock portfolio on three years of daily data. Volatility, beta, correlation, historical and parametric VaR at 95% and 99%, and maximum drawdown — then stress-tested under four scenarios including the 2020 crash and a rate shock.</p>
+          <div class="proj-metric">Historical · Parametric · Monte Carlo, with back-testing</div>
+        </article>
+        <article class="proj">
+          <div class="proj-top"><h3>SharePicker</h3><span class="chip">Python · SQL</span></div>
+          <p>Multi-factor equity screener over large market datasets. Weighted scoring on valuation, profitability, growth and leverage, with filters on ROE, ROCE, debt/equity and sales growth, behind engineered data pipelines and rule-based filters.</p>
+          <div class="proj-metric">500+ users</div>
+        </article>
+        <article class="proj">
+          <div class="proj-top"><h3>FinSight</h3><span class="chip">Java</span></div>
+          <p>Personal finance and portfolio analytics app — expense categorisation, budgets, savings goals, and exposure concentration, volatility and drawdown metrics with scenario testing. Shipped end to end: architecture, data handling, testing, release.</p>
+          <div class="proj-metric">2,000+ downloads · 4.5 rating</div>
+        </article>
+        <article class="proj">
+          <div class="proj-top"><h3>Lending &amp; mortgage portfolio review</h3><span class="chip">Excel</span></div>
+          <p>KPI tracker for a loan book: disbursement volume, turnaround time, delinquency buckets at DPD 30/60/90+, LTV and prepayment trends, with a monthly management summary. Mapped the full mortgage lifecycle and marked the control checkpoint at each stage.</p>
+          <div class="proj-metric">Origination → underwriting → servicing → collections</div>
+        </article>
+      </div>
+    </section>
+
+    <section id="notes">
+      <span class="eyebrow">Notes</span>
+      <h2>What I write about</h2>
+      <p class="lede">Short pieces from the work itself — a number that behaved unexpectedly, a signal worth checking, a conclusion that reversed when carried one step further.</p>
+      <div class="notes">
+
+        <article class="note">
+          <span class="note-tag">Funnel economics</span>
+          <h3>Cheap leads are not cheap disbursals</h3>
+          <p>A lending channel delivering leads at ₹254 looked low-intent next to one at ₹547 — qualification of 5.0% against 12.2%. Budget was about to move. Carried to disbursal, cost per funded loan was ₹55,378 against ₹75,007, and the ranking flipped.</p>
+          <p class="note-take">The channel was being judged at the stage where it looks worst. Pick the metric at the end of the funnel, not the top.</p>
+        </article>
+
+        <article class="note">
+          <span class="note-tag">Accrual quality</span>
+          <h3>When profit arrives faster than cash</h3>
+          <p>The OCF-versus-PAT gap is the first thing I check on a growth story. Profit can be reported on revenue that has not been collected, and the gap widens quietly for several quarters before receivable days make it obvious.</p>
+          <p class="note-take">A company generating more cash than it reports as profit is the healthy version of this. The reverse deserves a sentence in every report.</p>
+        </article>
+
+        <article class="note">
+          <span class="note-tag">Valuation</span>
+          <h3>A 14% gap hiding in the peer set</h3>
+          <p>Peer multiples are rarely comparable as published. Normalising the peer set and bridging margin differences moved implied value on a target by roughly 14% — enough to change the pricing conversation rather than confirm it.</p>
+          <p class="note-take">A ratio means nothing in isolation. Compare against the company's own history first, the peer group second.</p>
+        </article>
+
+        <article class="note">
+          <span class="note-tag">Data discipline</span>
+          <h3>The finding I deleted before shipping</h3>
+          <p>997 records appeared to be qualified before they existed. The cause was a date-only column stored at midnight against a full timestamp — compared at day level, the genuine count was zero.</p>
+          <p class="note-take">A false positive that reaches a reviewer costs more trust than a missed one. Test the data model before you report the anomaly.</p>
+        </article>
+
+        <div class="note-cta">
+          <p>I post these as I go, along with daily index, sector and macro notes — RBI policy, FPI flows, earnings and deal activity, with a record of calls against outcomes.</p>
+          <a class="btn" href="https://www.linkedin.com/in/ayush-yadav-78b108258" target="_blank" rel="noopener">Follow on LinkedIn</a>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="ventures">
+      <span class="eyebrow">Ventures</span>
+      <h2>Built, not just analysed</h2>
+      <div class="ventures">
+        <div class="venture">
+          <h3>Safe Horizon</h3>
+          <div class="role-org">Founder · Risk advisory</div>
+          <p>A risk advisory practice for small and growing enterprises: risk assessment, internal control review, risk registers and governance support, plus company-level due diligence on ownership structures, related-party relationships and counterparty risk. I own the service model, the pricing, the operating budget and the assessment methodology. The long-term aim is India's most trusted independent risk advisory firm.</p>
+        </div>
+        <div class="venture">
+          <h3>SME Consulting LLP</h3>
+          <div class="role-org">Co-founder</div>
+          <p>Advisory practice delivering business research, financial structuring, compliance readiness, management reporting discipline and lender-facing documentation to small and mid-sized businesses — working directly with owners and operating teams rather than through a deck.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="credentials">
+      <span class="eyebrow">Credentials</span>
+      <h2>Education &amp; certifications</h2>
+      <div class="creds">
+        <div class="cred">
+          <div class="cred-name">B.Tech, Computer Science &amp; Engineering</div>
+          <div class="cred-meta">National Institute of Technology, Kurukshetra<br>2022 – 2026 · CGPA 8.2 / 10<br>Probability &amp; statistics, linear algebra, numerical methods, DSA</div>
+        </div>
+        <div class="cred">
+          <div class="cred-name">Financial Risk Manager (FRM), GARP</div>
+          <div class="cred-meta"><span class="cred-status">Part I cleared</span> · Part II in preparation<br>Quantitative analysis, financial markets &amp; products, valuation &amp; risk models</div>
+        </div>
+        <div class="cred">
+          <div class="cred-name">Financial Modeling &amp; Valuation Analyst (FMVA)</div>
+          <div class="cred-meta">Corporate Finance Institute<br>Three-statement modelling, DCF, comparable company analysis</div>
+        </div>
+        <div class="cred">
+          <div class="cred-name">Bloomberg Market Concepts</div>
+          <div class="cred-meta">Bloomberg<br>Economic indicators, currencies, fixed income, equities</div>
+        </div>
+        <div class="cred">
+          <div class="cred-name">NISM Series XV — Research Analyst</div>
+          <div class="cred-meta">Certification preparation completed</div>
+        </div>
+        <div class="cred">
+          <div class="cred-name">J.P. Morgan Investment Banking</div>
+          <div class="cred-meta">Virtual experience programme, Forage<br>Plus Equity Research Cohort, The Valuation School</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="resumes">
+      <span class="eyebrow">Resumes</span>
+      <h2>Pick the track, take the resume</h2>
+      <p class="lede">One resume per track, each written for that desk rather than trimmed from a general one. Click to download.</p>
+      <div class="coverage">
+        <a class="cov" href="resumes/ayush-yadav-risk-management.pdf" download><span class="cov-name">Risk management</span><span class="cov-desc">Investment &amp; portfolio risk</span><span class="cov-dl">PDF ↓</span></a>
+        <a class="cov" href="resumes/ayush-yadav-investment-banking.pdf" download><span class="cov-name">Investment banking</span><span class="cov-desc">Modelling · valuation · pitch</span><span class="cov-dl">PDF ↓</span></a>
+        <a class="cov" href="resumes/ayush-yadav-pe-deal-team.pdf" download><span class="cov-name">Private equity deal team</span><span class="cov-desc">Origination · diligence · monitoring</span><span class="cov-dl">PDF ↓</span></a>
+        <a class="cov" href="resumes/ayush-yadav-private-markets-research.pdf" download><span class="cov-name">Private markets research</span><span class="cov-desc">Ownership · M&amp;A · company intelligence</span><span class="cov-dl">PDF ↓</span></a>
+        <a class="cov" href="resumes/ayush-yadav-family-office.pdf" download><span class="cov-name">Family office</span><span class="cov-desc">Portfolio monitoring &amp; governance</span><span class="cov-dl">PDF ↓</span></a>
+        <a class="cov" href="resumes/ayush-yadav-equity-derivatives-valuation.pdf" download><span class="cov-name">Equity derivatives valuation</span><span class="cov-desc">Product control · P&amp;L attribution</span><span class="cov-dl">PDF ↓</span></a>
+        <a class="cov" href="resumes/ayush-yadav-credit-policy.pdf" download><span class="cov-name">Credit policy</span><span class="cov-desc">Portfolio strategy · risk analytics</span><span class="cov-dl">PDF ↓</span></a>
+        <a class="cov" href="resumes/ayush-yadav-internal-audit.pdf" download><span class="cov-name">Internal audit</span><span class="cov-desc">FS risk &amp; compliance</span><span class="cov-dl">PDF ↓</span></a>
+        <a class="cov" href="resumes/ayush-yadav-fpa.pdf" download><span class="cov-name">FP&amp;A</span><span class="cov-desc">Budgeting · forecasting · MIS</span><span class="cov-dl">PDF ↓</span></a>
+        <a class="cov" href="resumes/ayush-yadav-strategy-execution.pdf" download><span class="cov-name">Strategy &amp; execution</span><span class="cov-desc">Lending &amp; mortgage analytics</span><span class="cov-dl">PDF ↓</span></a>
+        <a class="cov" href="resumes/ayush-yadav-market-intelligence.pdf" download><span class="cov-name">Market intelligence</span><span class="cov-desc">TAM · competitive intelligence</span><span class="cov-dl">PDF ↓</span></a>
+        <a class="cov" href="resumes/ayush-yadav-business-analyst.pdf" download><span class="cov-name">Business analyst</span><span class="cov-desc">Capital markets delivery</span><span class="cov-dl">PDF ↓</span></a>
+        <a class="cov" href="resumes/ayush-yadav-business-data-analyst.pdf" download><span class="cov-name">Business data analyst</span><span class="cov-desc">KPI dashboards · business cases</span><span class="cov-dl">PDF ↓</span></a>
+        <a class="cov" href="resumes/ayush-yadav-business-systems-analysis.pdf" download><span class="cov-name">Business systems analysis</span><span class="cov-desc">Requirements · data · fintech product</span><span class="cov-dl">PDF ↓</span></a>
+        <a class="cov" href="resumes/ayush-yadav-market-research.pdf" download><span class="cov-name">Market research</span><span class="cov-desc">Insights &amp; reporting</span><span class="cov-dl">PDF ↓</span></a>
+        <a class="cov" href="resumes/ayush-yadav-research-client-analytics.pdf" download><span class="cov-name">Research &amp; client analytics</span><span class="cov-desc">MI · dashboards · pricing</span><span class="cov-dl">PDF ↓</span></a>
+      </div>
+      <p class="resume-all">16 role-specific versions · Last updated October 2026 · Ask if the mandate needs a different cut</p>
+    </section>
+
+    <section id="contact">
+      <span class="eyebrow">Contact</span>
+      <h2>Get in touch</h2>
+      <p class="lede">Open to roles in risk management, equity research, investment banking, private markets and wealth management. Advisory enquiries for Safe Horizon welcome too.</p>
+      <div class="contact-grid">
+        <div class="cx">
+          <div class="cx-label">Email</div>
+          <div class="cx-value" id="v-email">ayyadav374@gmail.com</div>
+          <button class="copy" id="c-email" type="button" data-target="v-email">Copy</button>
+        </div>
+        <div class="cx">
+          <div class="cx-label">Phone</div>
+          <div class="cx-value num" id="v-phone">+91 93061 39403</div>
+          <button class="copy" id="c-phone" type="button" data-target="v-phone">Copy</button>
+        </div>
+        <div class="cx">
+          <div class="cx-label">LinkedIn</div>
+          <div class="cx-value"><a href="https://www.linkedin.com/in/ayush-yadav-78b108258" target="_blank" rel="noopener">ayush-yadav-78b108258</a></div>
+          <button class="copy" id="c-li" type="button" data-target="v-li">Copy link</button>
+          <span hidden id="v-li">https://www.linkedin.com/in/ayush-yadav-78b108258</span>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      Ayush Yadav · Gurugram, Haryana, India<br>
+      Risk · Valuation · Investment Banking — FRM Part I (GARP), FMVA, B.Tech CSE (NIT Kurukshetra)
+    </footer>
+
+  </main>
+</div>
+
+<script>
+(function () {
+  /* ---- theme: one button cycling light → dark → auto ---- */
+  var KEY = "ay-theme";
+  var ORDER = ["light", "dark", "system"];
+  var FACE = { light: ["☀", "Light"], dark: ["☾", "Dark"], system: ["◐", "Auto"] };
+  var root = document.documentElement;
+  var btn = document.getElementById("th-toggle");
+  var glyph = document.getElementById("th-glyph");
+  var label = document.getElementById("th-label");
+  var mode = "system";
+
+  function paint() {
+    if (mode === "system") root.removeAttribute("data-theme");
+    else root.setAttribute("data-theme", mode);
+    glyph.textContent = FACE[mode][0];
+    label.textContent = FACE[mode][1];
+    var next = ORDER[(ORDER.indexOf(mode) + 1) % ORDER.length];
+    btn.setAttribute("aria-label", "Theme: " + FACE[mode][1] + ". Switch to " + FACE[next][1] + ".");
+    btn.setAttribute("title", "Switch to " + FACE[next][1]);
+  }
+
+  try {
+    var v = localStorage.getItem(KEY);
+    if (ORDER.indexOf(v) !== -1) mode = v;
+  } catch (e) {}
+  paint();
+
+  btn.addEventListener("click", function () {
+    mode = ORDER[(ORDER.indexOf(mode) + 1) % ORDER.length];
+    paint();
+    try { localStorage.setItem(KEY, mode); } catch (e) {}
+  });
+
+  /* ---- copy buttons ---- */
+  function flash(btn, text) {
+    var old = btn.textContent;
+    btn.textContent = text;
+    btn.dataset.done = "1";
+    setTimeout(function () { btn.textContent = old; delete btn.dataset.done; }, 1800);
+  }
+  function selectNode(node) {
+    try {
+      var r = document.createRange();
+      r.selectNodeContents(node);
+      var s = window.getSelection();
+      s.removeAllRanges();
+      s.addRange(r);
+      return true;
+    } catch (e) { return false; }
+  }
+  var copies = document.querySelectorAll(".copy");
+  for (var k = 0; k < copies.length; k++) {
+    copies[k].addEventListener("click", function () {
+      var btn = this;
+      var node = document.getElementById(btn.dataset.target);
+      if (!node) return;
+      var text = (node.textContent || "").trim();
+      function fallback() {
+        if (!node.hidden) { selectNode(node); flash(btn, "Select it"); }
+        else { flash(btn, text); }
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () { flash(btn, "Copied"); }, fallback);
+      } else {
+        fallback();
+      }
+    });
+  }
+})();
+</script>
+</body>
+</html>
