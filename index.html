@@ -80,7 +80,13 @@ body{
   font-size:1rem;
   line-height:1.6;
   -webkit-font-smoothing:antialiased;
+  -webkit-user-select:none;
+  user-select:none;
+  -webkit-touch-callout:none;
 }
+/* contact details stay selectable — people need to copy them */
+.cx-value,.cx-value a{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+::selection{background:var(--accent);color:var(--band)}
 h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 p{margin:0}
 a{color:var(--accent)}
